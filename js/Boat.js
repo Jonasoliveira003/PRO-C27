@@ -17,6 +17,11 @@ class Boat {
   }
 
   remove(index) {
+    this.animation = brokenBoatAnimation;
+    this.speed = 0.05;
+    this.width = 300;
+    this.height = 300;
+    this.isBroken = true;
     setTimeout(() => {
       Matter.World.remove(world, boats[index].body);
       delete boats[index];

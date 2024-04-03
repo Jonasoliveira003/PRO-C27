@@ -11,6 +11,9 @@ var score = 0;
 var boatAnimation = [];
 var boatSpritedata, boatSpritesheet;
 
+var brokenBoatAnimation = [];
+var brokenBoatSpritedata, brokenBoatSpritesheet;
+
 var waterSplashAnimation = [];
 var waterSplashSpritedata, waterSplashSpritesheet;
 
@@ -18,7 +21,9 @@ function preload() {
   backgroundImg = loadImage("./assets/background.gif");
   towerImage = loadImage("./assets/tower.png");
   boatSpritedata = loadJSON("assets/boat/boat.json");
-  boatSpritesheet = loadImage("assets/boat/boat.png");;
+  boatSpritesheet = loadImage("assets/boat/boat.png");
+  brokenBoatSpritedata = loadJSON("assets/boat/brokenBoat.json");
+  brokenBoatSpritesheet = loadImage("assets/boat/brokenBoat.png");
   waterSplashSpritedata = loadJSON("assets/waterSplash/waterSplash.json");
   waterSplashSpritesheet = loadImage("assets/waterSplash/waterSplash.png");
 }
@@ -27,7 +32,7 @@ function setup() {
   canvas = createCanvas(1200, 600);
   engine = Engine.create();
   world = engine.world;
-   angleMode(DEGREES)
+  angleMode(DEGREES)
   angle = 15
 
 
@@ -46,6 +51,12 @@ function setup() {
     boatAnimation.push(img);
   }
 
+  var brokenBoatFrames = brokenBoatSpritedata.frames;
+  for (var i = 0; i < brokenBoatFrames.length; i++) {
+    var pos = brokenBoatFrames[i].position;
+    var img = brokenBoatSpritesheet.get(pos.x, pos.y, pos.w, pos.h);
+    brokenBoatAnimation.push(img);
+  }
 
   var waterSplashFrames = waterSplashSpritedata.frames;
   for (var i = 0; i < waterSplashFrames.length; i++) {
@@ -84,7 +95,7 @@ function draw() {
 
   cannon.display();
 
-
+  
 }
 
 function collisionWithBoat(index) {
@@ -117,9 +128,8 @@ function showCannonBalls(ball, index) {
     ball.display();
     ball.animate();
     if (ball.body.position.x >= width || ball.body.position.y >= height - 50) {
-      if (!ball.isSink) {
         ball.remove(index);
-      }
+      
     }
   }
 }
